@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sniper Duel 3D</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="game-container"></div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen">
+      <div class="start-panel">
+        <h1>SNIPER DUEL</h1>
+
+        <p>آماده‌ای؟</p>
+
+        <button id="start-button">شروع بازی</button>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div id="crosshair">
+        <span></span>
+      </div>
+
+      <div id="player-status">
+        <div class="status-label">HEALTH</div>
+
+        <div class="health-container">
+          <div id="player-health-bar" class="health-bar"></div>
+        </div>
+
+        <div id="player-health-text">100</div>
+      </div>
+
+      <div id="enemy-status">
+        <div class="enemy-label">ENEMY</div>
+
+        <div class="enemy-health-container">
+          <div id="enemy-health-bar" class="enemy-health-bar"></div>
+        </div>
+      </div>
+
+      <div id="weapon-info">
+        <div id="weapon-name">SNIPER</div>
+
+        <div id="ammo">
+          <span id="ammo-current">5</span> /
+          <span id="ammo-reserve">20</span>
+        </div>
+      </div>
+
+      <div id="reload-indicator">RELOADING...</div>
+
+      <div id="interaction-hint">WASD برای حرکت • Mouse برای هدف‌گیری</div>
+
+      <div id="hit-marker">×</div>
+
+      <div id="damage-indicator"></div>
+    </div>
+
+    <!-- Game Over -->
+    <div id="game-over-screen" class="screen hidden">
+      <div class="result-panel">
+        <h1>GAME OVER</h1>
+
+        <button id="restart-button">دوباره بازی کن</button>
+      </div>
+    </div>
+
+    <!-- Victory -->
+    <div id="victory-screen" class="screen hidden">
+      <div class="result-panel">
+        <h1>VICTORY</h1>
+
+        <button id="victory-restart-button">دوباره بازی کن</button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading-screen" class="screen">
+      <div class="loading-panel">
+        <h2>Loading...</h2>
+      </div>
+    </div>
+
+    <!--
+        فقط یک نسخه Three.js
+        بدون import اشتباه "three"
+    -->
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
+
+    <!-- PointerLockControls از همان CDN -->
+    <script type="module">
+      import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/PointerLockControls.js";
+
+      window.PointerLockControls = PointerLockControls;
+
+      window.dispatchEvent(new Event("three-ready"));
+    </script>
+
+    <!-- Game -->
+    <script type="module" src="/game.js"></script>
+  </body>
+</html>
