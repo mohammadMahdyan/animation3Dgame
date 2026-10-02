@@ -4,7 +4,8 @@
    ============================================================ */
 
 import * as THREE from "three";
-import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
+import knifeImage from "./Assets/knife.png";
+import sniperImage from "./Assets/snip.png";
 
 ("use strict");
 
@@ -47,24 +48,7 @@ const Game = {
     pitch: 0,
   },
 
-  enemy: {
-    health: 100,
-    maxHealth: 100,
-
-    speed: 2.4,
-
-    position: new THREE.Vector3(65, 0, -65),
-
-    targetPosition: new THREE.Vector3(),
-
-    attackCooldown: 0,
-
-    alive: true,
-
-    mesh: null,
-
-    lastSeenPlayer: 0,
-  },
+  enemies: [],
 
   weapons: {
     knife: {
@@ -145,6 +129,16 @@ const DOM = {
 
   loadingScreen: document.getElementById("loading-screen"),
 
+  crosshair: document.getElementById("crosshair"),
+
+  sniperAim: document.getElementById("sniper-aim"),
+
+  weaponImage: document.getElementById("weapon-image"),
+
+  enemyCountInput: document.getElementById("enemy-count-input"),
+
+  enemyCount: document.getElementById("enemy-count"),
+
   startScreen: document.getElementById("start-screen"),
 
   startButton: document.getElementById("start-button"),
@@ -189,7 +183,6 @@ function initializeGame() {
   createLighting();
   createWorld();
   createPlayer();
-  createEnemy();
   createWeapons();
   setupEvents();
   updateHUD();
@@ -253,6 +246,7 @@ function createCamera() {
   );
 
   Game.camera.position.set(0, Game.player.height, 0);
+  Game.camera.rotation.order = "YXZ";
 }
 
 /* ============================================================
@@ -715,7 +709,7 @@ function createPlayer() {
    ENEMY
    ============================================================ */
 
-function createEnemy() {
+function createEnemy(position, index) {
   const enemyGroup = new THREE.Group();
 
   /*
@@ -769,11 +763,23 @@ function createEnemy() {
 
   enemyGroup.add(body, head, leftLeg, rightLeg);
 
-  enemyGroup.position.copy(Game.enemy.position);
+  enemyGroup.position.copy(position);
 
   Game.scene.add(enemyGroup);
 
-  Game.enemy.mesh = enemyGroup;
+  const enemy = {
+    id: index,
+    health: 100,
+    maxHealth: 100,
+    speed: 2.4,
+    attackCooldown: performance.now() / 1000 + Math.random() * 1.5,
+    alive: true,
+    mesh: enemyGroup,
+  };
+
+  Game.enemies.push(enemy);
+
+  return enemy;
 }
 
 /* ============================================================
@@ -781,15 +787,16 @@ function createEnemy() {
    ============================================================ */
 
 function createWeapons() {
-  /*
-       فعلاً مدل‌های ساده هندسی استفاده می‌کنیم.
-       در پارت بعدی می‌توانیم مدل‌های واقعی 3D
-       را با GLTF/GLB اضافه کنیم.
-    */
+  updateWeaponImage();
+}
 
-  createKnifeModel();
+function updateWeaponImage() {
+  const isKnife = Game.currentWeapon === "knife";
 
-  createSniperModel();
+  DOM.weaponImage.src = isKnife ? knifeImage : sniperImage;
+  DOM.weaponImage.dataset.weapon = Game.currentWeapon;
+  DOM.weaponImage.alt = isKnife ? "Knife" : "Sniper rifle";
+  DOM.weaponImage.classList.remove("is-firing");
 }
 
 function createKnifeModel() {
@@ -901,6 +908,29 @@ function createSniperModel() {
 function setupEvents() {
   window.addEventListener("resize", onResize);
 
+  window.addEventListener("mousemove", (event) => {
+    if (!Game.started || Game.gameOver || Game.victory) return;
+
+    const pointerLocked =
+      document.pointerLockElement === Game.renderer.domElement;
+
+    if (!pointerLocked && event.buttons === 0) return;
+
+    const sensitivity = 0.0022;
+    const movementX = Number.isFinite(event.movementX) ? event.movementX : 0;
+    const movementY = Number.isFinite(event.movementY) ? event.movementY : 0;
+
+    Game.player.yaw -= movementX * sensitivity;
+    Game.player.pitch = THREE.MathUtils.clamp(
+      Game.player.pitch - movementY * sensitivity,
+      -Math.PI / 2 + 0.05,
+      Math.PI / 2 - 0.05,
+    );
+
+    Game.camera.rotation.y = Game.player.yaw;
+    Game.camera.rotation.x = Game.player.pitch;
+  });
+
   window.addEventListener("keydown", (event) => {
     Game.keys[event.code] = true;
 
@@ -910,6 +940,10 @@ function setupEvents() {
 
     if (event.code === "Digit2") {
       switchWeapon("sniper");
+    }
+
+    if (event.code === "KeyQ" && !event.repeat) {
+      switchWeapon(Game.currentWeapon === "knife" ? "sniper" : "knife");
     }
 
     if (event.code === "KeyR") {
@@ -973,12 +1007,41 @@ function setupEvents() {
    ============================================================ */
 
 function startGame() {
+  const requestedCount = Number.parseInt(DOM.enemyCountInput.value, 10);
+  const enemyCount = Number.isFinite(requestedCount)
+    ? Math.min(10, Math.max(1, requestedCount))
+    : 3;
+  const spawnPoints = [
+    [65, -65],
+    [65, 65],
+    [-65, -65],
+    [0, -85],
+    [85, 0],
+    [-85, 0],
+    [0, 85],
+    [85, 85],
+    [-85, -85],
+    [-35, -35],
+  ];
+
+  DOM.enemyCountInput.value = enemyCount;
+  Game.enemies.length = 0;
+
+  for (let index = 0; index < enemyCount; index++) {
+    const [x, z] = spawnPoints[index];
+    createEnemy(new THREE.Vector3(x, 0, z), index);
+  }
+
+  updateHUD();
+
   Game.started = true;
+
+  DOM.weaponImage.hidden = false;
 
   DOM.startScreen.classList.add("hidden");
 
-  if (document.body.requestPointerLock) {
-    document.body.requestPointerLock();
+  if (Game.renderer.domElement.requestPointerLock) {
+    Game.renderer.domElement.requestPointerLock();
   }
 
   if (Game.clock) {
@@ -1142,9 +1205,7 @@ function switchWeapon(weapon) {
 
   Game.currentWeapon = weapon;
 
-  Game.knifeModel.visible = weapon === "knife";
-
-  Game.sniperModel.visible = weapon === "sniper";
+  updateWeaponImage();
 
   setZoom(false);
 
@@ -1188,30 +1249,30 @@ function knifeAttack() {
 
   animateKnife();
 
-  const distance = Game.camera.position.distanceTo(Game.enemy.mesh.position);
-
-  if (distance > weapon.range) {
-    return;
-  }
-
-  /*
-       بررسی اینکه دشمن مقابل بازیکن است
-    */
-
   const direction = new THREE.Vector3();
 
   Game.camera.getWorldDirection(direction);
 
-  const toEnemy = Game.enemy.mesh.position
-    .clone()
-    .sub(Game.camera.position)
-    .normalize();
+  const target = Game.enemies
+    .filter((enemy) => enemy.alive)
+    .map((enemy) => ({
+      enemy,
+      distance: Game.camera.position.distanceTo(enemy.mesh.position),
+      direction: enemy.mesh.position
+        .clone()
+        .sub(Game.camera.position)
+        .normalize(),
+    }))
+    .filter(
+      (candidate) =>
+        candidate.distance <= weapon.range &&
+        direction.dot(candidate.direction) >= 0.45,
+    )
+    .sort((first, second) => first.distance - second.distance)[0];
 
-  const dot = direction.dot(toEnemy);
+  if (!target) return;
 
-  if (dot < 0.45) return;
-
-  damageEnemy(weapon.damage);
+  damageEnemy(target.enemy, weapon.damage);
 
   showHitMarker();
 }
@@ -1221,15 +1282,7 @@ function knifeAttack() {
    ============================================================ */
 
 function animateKnife() {
-  const knife = Game.knifeModel;
-
-  knife.rotation.x = -0.9;
-
-  setTimeout(() => {
-    if (!knife) return;
-
-    knife.rotation.x = -0.25;
-  }, 130);
+  animateWeapon();
 }
 
 /* ============================================================
@@ -1289,7 +1342,9 @@ function performShot() {
 
   const obstacleHits = Game.raycaster.intersectObjects(Game.obstacles, false);
 
-  const enemyParts = Game.enemy.mesh ? Game.enemy.mesh.children : [];
+  const enemyParts = Game.enemies
+    .filter((enemy) => enemy.alive)
+    .flatMap((enemy) => enemy.mesh.children);
 
   const enemyHits = Game.raycaster.intersectObjects(enemyParts, false);
 
@@ -1307,7 +1362,13 @@ function performShot() {
     const hit = enemyHits[0];
 
     if (hit.distance <= obstacleDistance) {
-      damageEnemy(Game.weapons.sniper.damage);
+      const target = Game.enemies.find(
+        (enemy) => enemy.alive && enemy.mesh === hit.object.parent,
+      );
+
+      if (!target) return;
+
+      damageEnemy(target, Game.weapons.sniper.damage);
 
       createBulletImpact(hit.point);
 
@@ -1343,13 +1404,13 @@ function performShot() {
    ============================================================ */
 
 function animateSniper() {
-  const sniper = Game.sniperModel;
+  animateWeapon();
+}
 
-  sniper.position.z = -0.68;
-
-  setTimeout(() => {
-    sniper.position.z = -0.85;
-  }, 90);
+function animateWeapon() {
+  DOM.weaponImage.classList.remove("is-firing");
+  void DOM.weaponImage.offsetWidth;
+  DOM.weaponImage.classList.add("is-firing");
 }
 
 /* ============================================================
@@ -1462,12 +1523,12 @@ function createBulletImpact(point) {
    ENEMY DAMAGE
    ============================================================ */
 
-function damageEnemy(amount) {
-  if (!Game.enemy.alive) return;
+function damageEnemy(enemy, amount) {
+  if (!enemy.alive) return;
 
-  Game.enemy.health -= amount;
+  enemy.health -= amount;
 
-  Game.enemy.health = Math.max(0, Game.enemy.health);
+  enemy.health = Math.max(0, enemy.health);
 
   updateHUD();
 
@@ -1475,10 +1536,10 @@ function damageEnemy(amount) {
        ضربه خوردن
     */
 
-  enemyHitReaction();
+  enemyHitReaction(enemy);
 
-  if (Game.enemy.health <= 0) {
-    killEnemy();
+  if (enemy.health <= 0) {
+    killEnemy(enemy);
   }
 }
 
@@ -1486,14 +1547,14 @@ function damageEnemy(amount) {
    ENEMY HIT REACTION
    ============================================================ */
 
-function enemyHitReaction() {
-  if (!Game.enemy.mesh) return;
+function enemyHitReaction(enemy) {
+  if (!enemy.mesh) return;
 
-  Game.enemy.mesh.position.y = 0.15;
+  enemy.mesh.position.y = 0.15;
 
   setTimeout(() => {
-    if (Game.enemy.mesh && Game.enemy.alive) {
-      Game.enemy.mesh.position.y = 0;
+    if (enemy.mesh && enemy.alive) {
+      enemy.mesh.position.y = 0;
     }
   }, 100);
 }
@@ -1502,17 +1563,18 @@ function enemyHitReaction() {
    ENEMY DEATH
    ============================================================ */
 
-function killEnemy() {
-  if (!Game.enemy.alive) return;
+function killEnemy(enemyData) {
+  if (!enemyData.alive) return;
 
-  Game.enemy.alive = false;
+  enemyData.alive = false;
+  updateHUD();
 
   /*
        مرگ ساده و غیرگرافیکی:
        مدل به زمین می‌افتد.
     */
 
-  const enemy = Game.enemy.mesh;
+  const enemy = enemyData.mesh;
 
   let progress = 0;
 
@@ -1526,7 +1588,9 @@ function killEnemy() {
     if (progress >= 1) {
       clearInterval(deathAnimation);
 
-      setTimeout(showVictory, 500);
+      if (Game.enemies.every((enemy) => !enemy.alive)) {
+        setTimeout(showVictory, 500);
+      }
     }
   }, 30);
 }
@@ -1536,54 +1600,41 @@ function killEnemy() {
    ============================================================ */
 
 function updateEnemy(delta) {
-  if (!Game.enemy.alive) return;
-
   if (!Game.started) return;
-
-  const enemy = Game.enemy;
 
   const playerPosition = Game.camera.position.clone();
 
-  const distance = enemy.mesh.position.distanceTo(playerPosition);
+  for (const enemy of Game.enemies) {
+    if (!enemy.alive) continue;
 
-  /*
-       حرکت به سمت بازیکن فقط اگر نزدیک باشد
-       یا در محدوده دید قرار گرفته باشد.
-    */
+    const distance = enemy.mesh.position.distanceTo(playerPosition);
 
-  if (distance < 80) {
-    const direction = playerPosition.clone().sub(enemy.mesh.position);
+    if (distance < 80) {
+      const direction = playerPosition.clone().sub(enemy.mesh.position);
 
-    direction.y = 0;
+      direction.y = 0;
 
-    if (direction.lengthSq() > 1) {
-      direction.normalize();
+      if (direction.lengthSq() > 1) {
+        direction.normalize();
 
-      const movement = direction.clone().multiplyScalar(enemy.speed * delta);
+        const movement = direction.clone().multiplyScalar(enemy.speed * delta);
 
-      const next = enemy.mesh.position.clone().add(movement);
+        const next = enemy.mesh.position.clone().add(movement);
 
-      if (!isEnemyBlocked(next)) {
-        enemy.mesh.position.copy(next);
+        if (!isEnemyBlocked(next)) {
+          enemy.mesh.position.copy(next);
+        }
       }
-    }
 
-    /*
-           دشمن به سمت بازیکن نگاه کند
-        */
+      enemy.mesh.lookAt(
+        playerPosition.x,
+        enemy.mesh.position.y,
+        playerPosition.z,
+      );
 
-    enemy.mesh.lookAt(
-      playerPosition.x,
-      enemy.mesh.position.y,
-      playerPosition.z,
-    );
-
-    /*
-           اگر فاصله مناسب باشد شلیک کند
-        */
-
-    if (distance < 65) {
-      enemyShoot();
+      if (distance < 65) {
+        enemyShoot(enemy);
+      }
     }
   }
 }
@@ -1610,9 +1661,7 @@ function isEnemyBlocked(position) {
    ENEMY SHOOTING
    ============================================================ */
 
-function enemyShoot() {
-  const enemy = Game.enemy;
-
+function enemyShoot(enemy) {
   const now = performance.now() / 1000;
 
   if (now - enemy.attackCooldown < 2.2) {
@@ -1758,10 +1807,16 @@ function setZoom(enabled) {
 
   Game.camera.updateProjectionMatrix();
 
-  /*
-       در نسخه بعدی می‌توانیم
-       scope overlay واقعی اضافه کنیم.
-    */
+  updateAimDisplay();
+}
+
+function updateAimDisplay() {
+  const knifeMode = Game.currentWeapon === "knife";
+  const scoped = Game.currentWeapon === "sniper" && Game.weapons.sniper.zoomed;
+
+  DOM.crosshair.hidden = !knifeMode;
+  DOM.sniperAim.hidden = !scoped;
+  DOM.weaponImage.classList.toggle("is-aiming", scoped);
 }
 
 /* ============================================================
@@ -1827,13 +1882,23 @@ function updateHUD() {
 
   DOM.playerHealthText.textContent = Math.round(playerHealth);
 
-  const enemyHealth = Math.max(0, Math.min(100, Game.enemy.health));
+  const totalEnemyHealth = Game.enemies.reduce(
+    (total, enemy) => total + enemy.health,
+    0,
+  );
+  const maximumEnemyHealth = Game.enemies.length * 100;
+  const enemyHealth = maximumEnemyHealth
+    ? (totalEnemyHealth / maximumEnemyHealth) * 100
+    : 0;
 
   DOM.enemyHealthBar.style.width = `${enemyHealth}%`;
+  DOM.enemyCount.textContent = `${Game.enemies.filter((enemy) => enemy.alive).length} / ${Game.enemies.length}`;
 
   const weapon = Game.currentWeapon;
 
   DOM.weaponName.textContent = weapon === "knife" ? "KNIFE" : "SNIPER";
+
+  updateAimDisplay();
 
   if (weapon === "sniper") {
     DOM.ammoCurrent.textContent = Game.weapons.sniper.ammo;

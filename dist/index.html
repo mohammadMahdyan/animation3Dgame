@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sniper Duel 3D</title>
+
+    <script type="module" crossorigin src="/assets/index-CP1C485u.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-tUoOOvDl.css">
+  </head>
+
+  <body>
+    <div id="game-container"></div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen">
+      <div class="start-panel menu-panel">
+        <h1 class="game-title">SNIPER DUEL</h1>
+
+        <p>آماده‌ای؟</p>
+
+        <div class="enemy-count-setting" dir="rtl">
+          <label for="enemy-count-input">تعداد دشمن‌ها</label>
+          <input
+            id="enemy-count-input"
+            type="number"
+            min="1"
+            max="10"
+            value="3"
+          />
+        </div>
+
+        <button id="start-button" class="main-button">شروع بازی</button>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div id="crosshair">
+        <span></span>
+      </div>
+
+      <img id="sniper-aim" src="/assets/snipAim-vlLhDXIM.png" alt="" hidden />
+
+      <img id="weapon-image" src="/assets/snip-B-c6S2w3.png" alt="Sniper rifle" hidden />
+
+      <div id="player-status">
+        <div class="status-label">HEALTH</div>
+
+        <div class="health-container">
+          <div id="player-health-bar" class="health-bar"></div>
+        </div>
+
+        <div id="player-health-text">100</div>
+      </div>
+
+      <div id="enemy-status">
+        <div class="enemy-heading">
+          <div class="enemy-label">ENEMIES</div>
+          <div id="enemy-count">0 / 0</div>
+        </div>
+
+        <div class="enemy-health-container">
+          <div id="enemy-health-bar" class="enemy-health-bar"></div>
+        </div>
+      </div>
+
+      <div id="weapon-info">
+        <div id="weapon-name">SNIPER</div>
+
+        <div id="ammo">
+          <span id="ammo-current">5</span> /
+          <span id="ammo-reserve">20</span>
+        </div>
+      </div>
+
+      <div id="reload-indicator">RELOADING...</div>
+
+      <div id="interaction-hint">WASD حرکت • ماوس هدف‌گیری • Q تعویض اسلحه</div>
+
+      <div id="hit-marker">×</div>
+
+      <div id="damage-indicator"></div>
+    </div>
+
+    <!-- Game Over -->
+    <div id="game-over-screen" class="screen hidden">
+      <div class="result-panel">
+        <h1>GAME OVER</h1>
+
+        <button id="restart-button">دوباره بازی کن</button>
+      </div>
+    </div>
+
+    <!-- Victory -->
+    <div id="victory-screen" class="screen hidden">
+      <div class="result-panel">
+        <h1>VICTORY</h1>
+
+        <button id="victory-restart-button">دوباره بازی کن</button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading-screen" class="screen">
+      <div class="loading-panel">
+        <h2>Loading...</h2>
+      </div>
+    </div>
+
+    <!-- Game -->
+  </body>
+</html>

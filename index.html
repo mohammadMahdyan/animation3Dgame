@@ -14,12 +14,23 @@
 
     <!-- Start Screen -->
     <div id="start-screen" class="screen">
-      <div class="start-panel">
-        <h1>SNIPER DUEL</h1>
+      <div class="start-panel menu-panel">
+        <h1 class="game-title">SNIPER DUEL</h1>
 
         <p>آماده‌ای؟</p>
 
-        <button id="start-button">شروع بازی</button>
+        <div class="enemy-count-setting" dir="rtl">
+          <label for="enemy-count-input">تعداد دشمن‌ها</label>
+          <input
+            id="enemy-count-input"
+            type="number"
+            min="1"
+            max="10"
+            value="3"
+          />
+        </div>
+
+        <button id="start-button" class="main-button">شروع بازی</button>
       </div>
     </div>
 
@@ -28,6 +39,10 @@
       <div id="crosshair">
         <span></span>
       </div>
+
+      <img id="sniper-aim" src="/Assets/snipAim.png" alt="" hidden />
+
+      <img id="weapon-image" src="/Assets/snip.png" alt="Sniper rifle" hidden />
 
       <div id="player-status">
         <div class="status-label">HEALTH</div>
@@ -40,7 +55,10 @@
       </div>
 
       <div id="enemy-status">
-        <div class="enemy-label">ENEMY</div>
+        <div class="enemy-heading">
+          <div class="enemy-label">ENEMIES</div>
+          <div id="enemy-count">0 / 0</div>
+        </div>
 
         <div class="enemy-health-container">
           <div id="enemy-health-bar" class="enemy-health-bar"></div>
@@ -58,7 +76,7 @@
 
       <div id="reload-indicator">RELOADING...</div>
 
-      <div id="interaction-hint">WASD برای حرکت • Mouse برای هدف‌گیری</div>
+      <div id="interaction-hint">WASD حرکت • ماوس هدف‌گیری • Q تعویض اسلحه</div>
 
       <div id="hit-marker">×</div>
 
@@ -89,22 +107,6 @@
         <h2>Loading...</h2>
       </div>
     </div>
-
-    <!--
-        فقط یک نسخه Three.js
-        بدون import اشتباه "three"
-    -->
-
-    <script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
-
-    <!-- PointerLockControls از همان CDN -->
-    <script type="module">
-      import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/PointerLockControls.js";
-
-      window.PointerLockControls = PointerLockControls;
-
-      window.dispatchEvent(new Event("three-ready"));
-    </script>
 
     <!-- Game -->
     <script type="module" src="/game.js"></script>

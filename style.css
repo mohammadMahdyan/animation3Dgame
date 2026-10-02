@@ -4,856 +4,830 @@
    ============================================================ */
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 
-    background: #111;
-    color: #fff;
+  background: #111;
+  color: #fff;
 
-    user-select: none;
+  user-select: none;
 }
-
 
 /* ============================================================
    GAME CONTAINER
    ============================================================ */
 
 #game-container {
-    position: fixed;
+  position: fixed;
 
-    inset: 0;
+  inset: 0;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    background: #111;
+  background: #111;
 }
-
 
 #game-container canvas {
-    display: block;
+  display: block;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 
 /* ============================================================
    COMMON SCREEN
    ============================================================ */
 
 .screen {
-    position: fixed;
+  position: fixed;
 
-    inset: 0;
+  inset: 0;
 
-    z-index: 100;
+  z-index: 100;
 
-    display: flex;
+  display: flex;
 
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-    padding: 20px;
+  padding: 20px;
 
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(45, 52, 48, 0.55),
-            rgba(5, 8, 9, 0.96)
-        );
+  background: radial-gradient(
+    circle at center,
+    rgba(45, 52, 48, 0.55),
+    rgba(5, 8, 9, 0.96)
+  );
 
-    backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 
-    transition:
-        opacity 0.35s ease,
-        visibility 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
 }
-
 
 .screen.hidden {
-    opacity: 0;
-    visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
 
-    pointer-events: none;
+  pointer-events: none;
 }
-
 
 /* ============================================================
    START MENU
    ============================================================ */
 
 .menu-panel {
+  width: min(560px, 92vw);
 
-    width: min(560px, 92vw);
+  padding: 48px 42px;
 
-    padding: 48px 42px;
+  text-align: center;
 
-    text-align: center;
+  background: linear-gradient(
+    145deg,
+    rgba(24, 29, 28, 0.97),
+    rgba(9, 12, 12, 0.97)
+  );
 
-    background:
-        linear-gradient(
-            145deg,
-            rgba(24, 29, 28, 0.97),
-            rgba(9, 12, 12, 0.97)
-        );
+  border: 1px solid rgba(210, 220, 205, 0.18);
 
-    border: 1px solid
-        rgba(210, 220, 205, 0.18);
+  border-radius: 18px;
 
-    border-radius: 18px;
-
-    box-shadow:
-        0 30px 80px
-        rgba(0, 0, 0, 0.7),
-
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-
 
 .game-title {
+  font-size: clamp(42px, 8vw, 76px);
 
-    font-size: clamp(
-        42px,
-        8vw,
-        76px
-    );
+  font-weight: 900;
 
-    font-weight: 900;
+  letter-spacing: 8px;
 
-    letter-spacing: 8px;
+  line-height: 1;
 
-    line-height: 1;
+  color: #e5e7df;
 
-    color: #e5e7df;
-
-    text-shadow:
-        0 4px 25px
-        rgba(0, 0, 0, 0.8);
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
 }
-
 
 .game-subtitle {
+  margin-top: 12px;
 
-    margin-top: 12px;
+  font-size: 14px;
 
-    font-size: 14px;
+  letter-spacing: 5px;
 
-    letter-spacing: 5px;
+  text-transform: uppercase;
 
-    text-transform: uppercase;
-
-    color: #9fa99a;
+  color: #9fa99a;
 }
-
 
 .menu-description {
+  margin-top: 30px;
 
-    margin-top: 30px;
+  line-height: 2;
 
-    line-height: 2;
+  font-size: 15px;
 
-    font-size: 15px;
-
-    color: #c3c8c0;
+  color: #c3c8c0;
 }
-
 
 .menu-description p + p {
-    margin-top: 8px;
+  margin-top: 8px;
 }
-
 
 /* ============================================================
    BUTTON
    ============================================================ */
 
 .main-button {
+  margin-top: 34px;
 
-    margin-top: 34px;
+  min-width: 220px;
 
-    min-width: 220px;
+  min-height: 54px;
 
-    min-height: 54px;
+  padding: 13px 28px;
 
-    padding:
-        13px
-        28px;
+  border: 1px solid rgba(220, 225, 210, 0.28);
 
-    border: 1px solid
-        rgba(220, 225, 210, 0.28);
+  border-radius: 8px;
 
-    border-radius: 8px;
+  background: linear-gradient(180deg, #687366, #424b42);
 
-    background:
-        linear-gradient(
-            180deg,
-            #687366,
-            #424b42
-        );
+  color: #fff;
 
-    color: #fff;
+  font-size: 15px;
 
-    font-size: 15px;
+  font-weight: 700;
 
-    font-weight: 700;
+  letter-spacing: 2px;
 
-    letter-spacing: 2px;
+  cursor: pointer;
 
-    cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 
-    box-shadow:
-        0 8px 24px
-        rgba(0, 0, 0, 0.35);
-
-    transition:
-        transform 0.15s ease,
-        filter 0.15s ease,
-        box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    box-shadow 0.15s ease;
 }
-
 
 .main-button:hover {
+  filter: brightness(1.15);
 
-    filter: brightness(1.15);
+  transform: translateY(-2px);
 
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
 }
-
 
 .main-button:active {
-
-    transform:
-        translateY(1px)
-        scale(0.98);
+  transform: translateY(1px) scale(0.98);
 }
-
 
 /* ============================================================
    HUD
    ============================================================ */
 
 #hud {
+  position: fixed;
 
-    position: fixed;
+  inset: 0;
 
-    inset: 0;
+  z-index: 20;
 
-    z-index: 20;
+  pointer-events: none;
 
-    pointer-events: none;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
-
 
 /* ============================================================
    CROSSHAIR
    ============================================================ */
 
 #crosshair {
+  position: absolute;
 
-    position: absolute;
+  left: 50%;
+  top: 50%;
 
-    left: 50%;
-    top: 50%;
+  width: 34px;
+  height: 34px;
 
-    width: 34px;
-    height: 34px;
-
-    transform:
-        translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
+#crosshair::before,
+#crosshair::after {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  content: "";
+
+  background: #fff;
+
+  box-shadow: 0 0 3px #000;
+}
+
+#crosshair::before {
+  width: 20px;
+  height: 2px;
+
+  transform: translate(-50%, -50%);
+}
+
+#crosshair::after {
+  width: 2px;
+  height: 20px;
+
+  transform: translate(-50%, -50%);
+}
+
+#sniper-aim {
+  position: fixed;
+
+  z-index: 21;
+
+  top: 50%;
+  left: 50%;
+
+  width: min(100vw, 100vh);
+  height: min(100vw, 100vh);
+
+  transform: translate(-50%, -50%);
+
+  object-fit: contain;
+
+  pointer-events: none;
+}
+
+#weapon-image {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+
+  z-index: 2;
+
+  width: min(52vw, 600px);
+  height: min(70vh, 600px);
+
+  object-fit: contain;
+  object-position: right bottom;
+
+  filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.35));
+
+  pointer-events: none;
+  transform-origin: right bottom;
+
+  transition:
+    right 180ms ease,
+    width 180ms ease,
+    height 180ms ease,
+    transform 180ms ease;
+}
+
+#weapon-image.is-aiming[data-weapon="sniper"] {
+  right: 50%;
+  bottom: 0;
+
+  width: min(42vw, 500px);
+  height: min(58vh, 520px);
+
+  transform: translateX(50%);
+}
+
+#weapon-image[data-weapon="knife"] {
+  width: min(42vw, 440px);
+  height: min(42vh, 300px);
+}
+
+#weapon-image.is-firing[data-weapon="sniper"] {
+  animation: sniper-recoil 180ms ease-out;
+}
+
+#weapon-image.is-firing[data-weapon="knife"] {
+  animation: knife-slash 360ms ease-out;
+}
+
+@keyframes sniper-recoil {
+  35% {
+    transform: translateY(-42px) scale(0.985);
+  }
+}
+
+@keyframes knife-slash {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+
+  30% {
+    transform: translate(-90px, 8px) rotate(-11deg);
+  }
+
+  68% {
+    transform: translate(55px, -18px) rotate(12deg);
+  }
+}
 
 .crosshair-horizontal {
+  position: absolute;
 
-    position: absolute;
+  left: 4px;
+  right: 4px;
 
-    left: 4px;
-    right: 4px;
+  top: 50%;
 
-    top: 50%;
+  height: 1px;
 
-    height: 1px;
+  background: rgba(255, 255, 255, 0.9);
 
-    background:
-        rgba(255, 255, 255, 0.9);
-
-    transform:
-        translateY(-50%);
+  transform: translateY(-50%);
 }
-
 
 .crosshair-vertical {
+  position: absolute;
 
-    position: absolute;
+  top: 4px;
+  bottom: 4px;
 
-    top: 4px;
-    bottom: 4px;
+  left: 50%;
 
-    left: 50%;
+  width: 1px;
 
-    width: 1px;
+  background: rgba(255, 255, 255, 0.9);
 
-    background:
-        rgba(255, 255, 255, 0.9);
-
-    transform:
-        translateX(-50%);
+  transform: translateX(-50%);
 }
-
 
 .crosshair-dot {
+  position: absolute;
 
-    position: absolute;
+  left: 50%;
+  top: 50%;
 
-    left: 50%;
-    top: 50%;
+  width: 3px;
+  height: 3px;
 
-    width: 3px;
-    height: 3px;
+  border-radius: 50%;
 
-    border-radius: 50%;
+  background: #fff;
 
-    background: #fff;
-
-    transform:
-        translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
-
 
 /* ============================================================
    PLAYER STATUS
    ============================================================ */
 
 #player-status {
+  position: absolute;
 
-    position: absolute;
+  left: 24px;
+  bottom: 28px;
 
-    left: 24px;
-    bottom: 28px;
+  width: 230px;
 
-    width: 230px;
+  padding: 12px 14px;
 
-    padding: 12px 14px;
+  border-radius: 8px;
 
-    border-radius: 8px;
+  background: rgba(5, 8, 8, 0.65);
 
-    background:
-        rgba(5, 8, 8, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.12);
-
-    backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
-
 
 .status-label {
+  margin-bottom: 7px;
 
-    margin-bottom: 7px;
+  font-size: 11px;
 
-    font-size: 11px;
+  letter-spacing: 2px;
 
-    letter-spacing: 2px;
-
-    color: #bfc5bd;
+  color: #bfc5bd;
 }
-
 
 .health-container {
+  position: relative;
 
-    position: relative;
+  width: 100%;
+  height: 8px;
 
-    width: 100%;
-    height: 8px;
+  overflow: hidden;
 
-    overflow: hidden;
+  border-radius: 20px;
 
-    border-radius: 20px;
-
-    background:
-        rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
-
 
 .health-bar {
+  width: 100%;
+  height: 100%;
 
-    width: 100%;
-    height: 100%;
+  border-radius: inherit;
 
-    border-radius: inherit;
+  background: linear-gradient(90deg, #6e8b62, #a6b88b);
 
-    background:
-        linear-gradient(
-            90deg,
-            #6e8b62,
-            #a6b88b
-        );
-
-    transition:
-        width 0.2s ease;
+  transition: width 0.2s ease;
 }
-
 
 #player-health-text {
+  margin-top: 7px;
 
-    margin-top: 7px;
+  font-size: 12px;
 
-    font-size: 12px;
+  font-weight: 700;
 
-    font-weight: 700;
-
-    color: #e4e8e0;
+  color: #e4e8e0;
 }
-
 
 /* ============================================================
    ENEMY STATUS
    ============================================================ */
 
 #enemy-status {
+  position: absolute;
 
-    position: absolute;
+  top: 24px;
+  left: 50%;
 
-    top: 24px;
-    left: 50%;
+  width: min(340px, 45vw);
 
-    width: min(340px, 45vw);
+  transform: translateX(-50%);
 
-    transform:
-        translateX(-50%);
+  padding: 8px 12px;
 
-    padding: 8px 12px;
+  border-radius: 6px;
 
-    border-radius: 6px;
+  background: rgba(0, 0, 0, 0.42);
 
-    background:
-        rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.09);
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.09);
-
-    text-align: center;
+  text-align: center;
 }
-
 
 .enemy-label {
+  margin-bottom: 7px;
 
-    margin-bottom: 7px;
+  font-size: 10px;
 
-    font-size: 10px;
+  font-weight: 700;
 
-    font-weight: 700;
+  letter-spacing: 3px;
 
-    letter-spacing: 3px;
-
-    color: #d4d7d1;
+  color: #d4d7d1;
 }
 
+.enemy-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+#enemy-count {
+  margin-bottom: 7px;
+
+  font-size: 11px;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.enemy-count-setting {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin-top: 24px;
+
+  color: #d4d7d1;
+}
+
+.enemy-count-setting input {
+  width: 78px;
+  min-height: 42px;
+
+  padding: 6px 10px;
+
+  border: 1px solid rgba(220, 225, 210, 0.28);
+  border-radius: 6px;
+
+  background: #171b19;
+  color: #fff;
+
+  font: inherit;
+  text-align: center;
+}
+
+.enemy-count-setting input:focus-visible {
+  outline: 2px solid #a9c27d;
+  outline-offset: 2px;
+}
 
 .enemy-health-container {
+  width: 100%;
+  height: 5px;
 
-    width: 100%;
-    height: 5px;
+  overflow: hidden;
 
-    overflow: hidden;
+  border-radius: 20px;
 
-    border-radius: 20px;
-
-    background:
-        rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
-
 
 .enemy-health-bar {
+  width: 100%;
+  height: 100%;
 
-    width: 100%;
-    height: 100%;
+  background: linear-gradient(90deg, #777, #d2d2d2);
 
-    background:
-        linear-gradient(
-            90deg,
-            #777,
-            #d2d2d2
-        );
-
-    transition:
-        width 0.2s ease;
+  transition: width 0.2s ease;
 }
-
 
 /* ============================================================
    WEAPON STATUS
    ============================================================ */
 
 #weapon-status {
+  position: absolute;
 
-    position: absolute;
+  right: 26px;
+  bottom: 28px;
 
-    right: 26px;
-    bottom: 28px;
+  min-width: 170px;
 
-    min-width: 170px;
+  padding: 12px 16px;
 
-    padding: 12px 16px;
+  text-align: right;
 
-    text-align: right;
+  border-radius: 8px;
 
-    border-radius: 8px;
+  background: rgba(5, 8, 8, 0.65);
 
-    background:
-        rgba(5, 8, 8, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.12);
-
-    backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
-
 
 #weapon-name {
+  font-size: 14px;
 
-    font-size: 14px;
+  font-weight: 900;
 
-    font-weight: 900;
+  letter-spacing: 3px;
 
-    letter-spacing: 3px;
-
-    color: #e3e6df;
+  color: #e3e6df;
 }
-
 
 #ammo {
+  margin-top: 5px;
 
-    margin-top: 5px;
+  font-family: Consolas, monospace;
 
-    font-family:
-        Consolas,
-        monospace;
+  font-size: 25px;
 
-    font-size: 25px;
+  font-weight: 700;
 
-    font-weight: 700;
-
-    color: #fff;
+  color: #fff;
 }
-
 
 .ammo-divider {
+  margin: 0 5px;
 
-    margin:
-        0 5px;
-
-    color:
-        rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.35);
 }
-
 
 /* ============================================================
    WEAPON HELP
    ============================================================ */
 
 #weapon-help {
+  position: absolute;
 
-    position: absolute;
+  right: 26px;
+  bottom: 108px;
 
-    right: 26px;
-    bottom: 108px;
+  padding: 8px 12px;
 
-    padding: 8px 12px;
+  border-radius: 6px;
 
-    border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
 
-    background:
-        rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.55);
 
-    color:
-        rgba(255, 255, 255, 0.55);
+  font-size: 10px;
 
-    font-size: 10px;
-
-    letter-spacing: 0.5px;
+  letter-spacing: 0.5px;
 }
-
 
 #weapon-help span {
+  display: inline-flex;
 
-    display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-    align-items: center;
-    justify-content: center;
+  min-width: 20px;
+  height: 20px;
 
-    min-width: 20px;
-    height: 20px;
+  margin: 0 3px;
 
-    margin:
-        0 3px;
+  border-radius: 4px;
 
-    border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
 
-    background:
-        rgba(255, 255, 255, 0.12);
+  color: #fff;
 
-    color: #fff;
+  font-size: 10px;
 
-    font-size: 10px;
-
-    font-weight: 700;
+  font-weight: 700;
 }
-
 
 /* ============================================================
    RELOAD
    ============================================================ */
 
 #reload-indicator {
+  position: absolute;
 
-    position: absolute;
+  left: 50%;
+  bottom: 28%;
 
-    left: 50%;
-    bottom: 28%;
+  transform: translateX(-50%);
 
-    transform:
-        translateX(-50%);
+  padding: 9px 18px;
 
-    padding:
-        9px 18px;
+  border-radius: 6px;
 
-    border-radius: 6px;
+  background: rgba(10, 12, 12, 0.85);
 
-    background:
-        rgba(10, 12, 12, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.15);
+  font-size: 12px;
 
-    font-size: 12px;
+  font-weight: 800;
 
-    font-weight: 800;
+  letter-spacing: 3px;
 
-    letter-spacing: 3px;
+  color: #e0e2dc;
 
-    color: #e0e2dc;
+  opacity: 0;
 
-    opacity: 0;
+  visibility: hidden;
 
-    visibility: hidden;
-
-    transition:
-        opacity 0.15s ease;
+  transition: opacity 0.15s ease;
 }
-
 
 #reload-indicator.visible {
+  opacity: 1;
 
-    opacity: 1;
-
-    visibility: visible;
+  visibility: visible;
 }
-
 
 /* ============================================================
    INTERACTION HINT
    ============================================================ */
 
 #interaction-hint {
+  position: absolute;
 
-    position: absolute;
+  left: 50%;
 
-    left: 50%;
+  bottom: 17%;
 
-    bottom: 17%;
+  transform: translateX(-50%);
 
-    transform:
-        translateX(-50%);
+  padding: 8px 15px;
 
-    padding:
-        8px 15px;
+  border-radius: 6px;
 
-    border-radius: 6px;
+  background: rgba(0, 0, 0, 0.45);
 
-    background:
-        rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.65);
 
-    color:
-        rgba(255, 255, 255, 0.65);
+  font-size: 11px;
 
-    font-size: 11px;
-
-    letter-spacing: 0.5px;
+  letter-spacing: 0.5px;
 }
-
 
 /* ============================================================
    HIT MARKER
    ============================================================ */
 
 #hit-marker {
+  position: absolute;
 
-    position: absolute;
+  left: 50%;
+  top: 50%;
 
-    left: 50%;
-    top: 50%;
+  width: 30px;
+  height: 30px;
 
-    width: 30px;
-    height: 30px;
+  transform: translate(-50%, -50%) scale(0.65);
 
-    transform:
-        translate(-50%, -50%)
-        scale(0.65);
+  opacity: 0;
 
-    opacity: 0;
-
-    transition:
-        opacity 0.08s ease,
-        transform 0.08s ease;
+  transition:
+    opacity 0.08s ease,
+    transform 0.08s ease;
 }
-
 
 #hit-marker.visible {
+  opacity: 1;
 
-    opacity: 1;
-
-    transform:
-        translate(-50%, -50%)
-        scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
-
 
 .hit-line {
+  position: absolute;
 
-    position: absolute;
+  width: 11px;
+  height: 2px;
 
-    width: 11px;
-    height: 2px;
+  left: 50%;
+  top: 50%;
 
-    left: 50%;
-    top: 50%;
+  background: #fff;
 
-    background: #fff;
-
-    transform-origin: center;
+  transform-origin: center;
 }
-
 
 .hit-line-1 {
-    transform:
-        translate(-50%, -50%)
-        rotate(45deg)
-        translateX(7px);
+  transform: translate(-50%, -50%) rotate(45deg) translateX(7px);
 }
-
 
 .hit-line-2 {
-    transform:
-        translate(-50%, -50%)
-        rotate(-45deg)
-        translateX(7px);
+  transform: translate(-50%, -50%) rotate(-45deg) translateX(7px);
 }
-
 
 .hit-line-3 {
-    transform:
-        translate(-50%, -50%)
-        rotate(45deg)
-        translateX(-7px);
+  transform: translate(-50%, -50%) rotate(45deg) translateX(-7px);
 }
-
 
 .hit-line-4 {
-    transform:
-        translate(-50%, -50%)
-        rotate(-45deg)
-        translateX(-7px);
+  transform: translate(-50%, -50%) rotate(-45deg) translateX(-7px);
 }
-
 
 /* ============================================================
    DAMAGE INDICATOR
    ============================================================ */
 
 #damage-indicator {
+  position: absolute;
 
-    position: absolute;
+  inset: 0;
 
-    inset: 0;
+  border: 0 solid rgba(255, 255, 255, 0);
 
-    border:
-        0 solid
-        rgba(255, 255, 255, 0);
+  opacity: 0;
 
-    opacity: 0;
-
-    pointer-events: none;
+  pointer-events: none;
 }
-
 
 #damage-indicator.visible {
-
-    animation:
-        damageFlash 0.18s ease-out;
+  animation: damageFlash 0.18s ease-out;
 }
-
 
 @keyframes damageFlash {
+  0% {
+    opacity: 0;
 
-    0% {
+    box-shadow: inset 0 0 0 rgba(255, 255, 255, 0);
+  }
 
-        opacity: 0;
+  25% {
+    opacity: 1;
 
-        box-shadow:
-            inset 0 0 0
-            rgba(255, 255, 255, 0);
-    }
+    box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.16);
+  }
 
-    25% {
+  100% {
+    opacity: 0;
 
-        opacity: 1;
-
-        box-shadow:
-            inset 0 0 80px
-            rgba(255, 255, 255, 0.16);
-    }
-
-    100% {
-
-        opacity: 0;
-
-        box-shadow:
-            inset 0 0 0
-            rgba(255, 255, 255, 0);
-    }
+    box-shadow: inset 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
-
 
 /* ============================================================
    GAME OVER
@@ -861,292 +835,222 @@ body {
 
 .game-over-panel,
 .victory-panel {
+  width: min(480px, 92vw);
 
-    width: min(
-        480px,
-        92vw
-    );
+  padding: 45px 35px;
 
-    padding:
-        45px 35px;
+  text-align: center;
 
-    text-align: center;
+  border-radius: 16px;
 
-    border-radius: 16px;
+  background: linear-gradient(
+    145deg,
+    rgba(25, 28, 28, 0.98),
+    rgba(8, 10, 10, 0.98)
+  );
 
-    background:
-        linear-gradient(
-            145deg,
-            rgba(25, 28, 28, 0.98),
-            rgba(8, 10, 10, 0.98)
-        );
+  border: 1px solid rgba(255, 255, 255, 0.13);
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.13);
-
-    box-shadow:
-        0 30px 80px
-        rgba(0, 0, 0, 0.7);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
 }
-
 
 #game-over-title,
 .victory-title {
+  font-size: clamp(38px, 8vw, 64px);
 
-    font-size:
-        clamp(
-            38px,
-            8vw,
-            64px
-        );
+  font-weight: 900;
 
-    font-weight: 900;
-
-    letter-spacing: 7px;
+  letter-spacing: 7px;
 }
-
 
 #game-over-title {
-
-    color: #d6d8d3;
+  color: #d6d8d3;
 }
-
 
 .victory-title {
-
-    color: #e5e8df;
+  color: #e5e8df;
 }
-
 
 #game-over-message,
 .victory-message {
+  margin-top: 14px;
 
-    margin-top: 14px;
+  color: #aeb5ac;
 
-    color: #aeb5ac;
-
-    font-size: 14px;
+  font-size: 14px;
 }
-
 
 /* ============================================================
    LOADING
    ============================================================ */
 
 .loading-panel {
+  width: min(420px, 90vw);
 
-    width: min(
-        420px,
-        90vw
-    );
-
-    text-align: center;
+  text-align: center;
 }
-
 
 .loading-title {
+  font-size: 16px;
 
-    font-size: 16px;
+  letter-spacing: 2px;
 
-    letter-spacing: 2px;
-
-    color: #d5d9d1;
+  color: #d5d9d1;
 }
-
 
 .loading-bar-container {
+  width: 100%;
+  height: 6px;
 
-    width: 100%;
-    height: 6px;
+  margin-top: 20px;
 
-    margin-top: 20px;
+  overflow: hidden;
 
-    overflow: hidden;
+  border-radius: 20px;
 
-    border-radius: 20px;
-
-    background:
-        rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
-
 
 .loading-bar {
+  width: 0%;
+  height: 100%;
 
-    width: 0%;
-    height: 100%;
+  background: #c7cec1;
 
-    background:
-        #c7cec1;
-
-    transition:
-        width 0.25s ease;
+  transition: width 0.25s ease;
 }
-
 
 #loading-percent {
+  margin-top: 9px;
 
-    margin-top: 9px;
+  font-family: Consolas, monospace;
 
-    font-family:
-        Consolas,
-        monospace;
+  font-size: 12px;
 
-    font-size: 12px;
-
-    color: #8f988d;
+  color: #8f988d;
 }
-
 
 /* ============================================================
    VIGNETTE
    ============================================================ */
 
 #hud::after {
+  content: "";
 
-    content: "";
+  position: absolute;
 
-    position: absolute;
+  inset: 0;
 
-    inset: 0;
+  pointer-events: none;
 
-    pointer-events: none;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            transparent 48%,
-            rgba(0, 0, 0, 0.22) 100%
-        );
+  background: radial-gradient(
+    ellipse at center,
+    transparent 48%,
+    rgba(0, 0, 0, 0.22) 100%
+  );
 }
-
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 
 @media (max-width: 700px) {
+  #weapon-image {
+    width: 62vw;
+    height: 54vh;
+  }
 
-    #player-status {
+  #weapon-image[data-weapon="knife"] {
+    width: 52vw;
+    height: 34vh;
+  }
+  #player-status {
+    left: 12px;
+    bottom: 15px;
 
-        left: 12px;
-        bottom: 15px;
+    width: 165px;
 
-        width: 165px;
+    padding: 9px;
+  }
 
-        padding: 9px;
-    }
+  #weapon-status {
+    right: 12px;
+    bottom: 15px;
 
+    min-width: 125px;
 
-    #weapon-status {
+    padding: 9px;
+  }
 
-        right: 12px;
-        bottom: 15px;
+  #weapon-help {
+    right: 12px;
+    bottom: 92px;
 
-        min-width: 125px;
+    font-size: 9px;
+  }
 
-        padding: 9px;
-    }
+  #enemy-status {
+    top: 12px;
 
+    width: 55vw;
+  }
 
-    #weapon-help {
+  #interaction-hint {
+    bottom: 22%;
+  }
 
-        right: 12px;
-        bottom: 92px;
+  .menu-panel {
+    padding: 35px 22px;
+  }
 
-        font-size: 9px;
-    }
-
-
-    #enemy-status {
-
-        top: 12px;
-
-        width: 55vw;
-    }
-
-
-    #interaction-hint {
-
-        bottom: 22%;
-    }
-
-
-    .menu-panel {
-
-        padding:
-            35px 22px;
-    }
-
-
-    .game-title {
-
-        letter-spacing: 4px;
-    }
+  .game-title {
+    letter-spacing: 4px;
+  }
 }
-
 
 /* ============================================================
    SMALL SCREENS
    ============================================================ */
 
 @media (max-width: 430px) {
+  #weapon-help {
+    display: none;
+  }
 
-    #weapon-help {
+  #player-status {
+    width: 145px;
+  }
 
-        display: none;
-    }
+  #weapon-status {
+    min-width: 115px;
+  }
 
+  #ammo {
+    font-size: 20px;
+  }
 
-    #player-status {
+  #weapon-name {
+    font-size: 11px;
+  }
 
-        width: 145px;
-    }
-
-
-    #weapon-status {
-
-        min-width: 115px;
-    }
-
-
-    #ammo {
-
-        font-size: 20px;
-    }
-
-
-    #weapon-name {
-
-        font-size: 11px;
-    }
-
-
-    .main-button {
-
-        width: 100%;
-        min-width: 0;
-    }
+  .main-button {
+    width: 100%;
+    min-width: 0;
+  }
 }
-
 
 /* ============================================================
    REDUCED MOTION
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
 
-    *,
-    *::before,
-    *::after {
+    animation-iteration-count: 1 !important;
 
-        animation-duration:
-            0.01ms !important;
-
-        animation-iteration-count:
-            1 !important;
-
-        transition-duration:
-            0.01ms !important;
-    }
+    transition-duration: 0.01ms !important;
+  }
 }
